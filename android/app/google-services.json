@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "195177306787",
+    "project_id": "instantgram-aa88c",
+    "storage_bucket": "instantgram-aa88c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195177306787:android:6dc9ac671f05400a243d16",
+        "android_client_info": {
+          "package_name": "com.newagedavid.instantgram"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADGD2vW31EkPJUH0GH561w-XuThC0-2ms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
