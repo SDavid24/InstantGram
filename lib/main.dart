@@ -6,6 +6,7 @@ import 'package:instantgram/state/auth/providers/auth_state_provider.dart';
 import 'dart:developer' as devtools show log;
 
 import 'package:instantgram/state/auth/providers/is_logged_in_provider.dart';
+import 'package:instantgram/views/components/loading/loadinng_screen.dart';
 
 extension Log on Object{
   void log() => devtools.log(toString());
@@ -71,7 +72,7 @@ class MainView extends StatelessWidget {
         title: const Text('Main view'),
       ),
       body: Consumer(
-        builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        builder: ( _, WidgetRef ref, Widget? child) {
           return ElevatedButton(
             onPressed: () async {
               await ref.read(authStateProvider.notifier).logout();
