@@ -3,6 +3,11 @@
 <plist version="1.0">
 <dict>
 
+
+<key>NSPhotoLibraryUsageDescription</key>
+  <string>$(PRODUCT_NAME) would like to access your photos</string>
+
+<key>NSCameraUsageDescription</key>
 <key>LSApplicationQueriesSchemes</key>
 <array>
     <string>fbapi</string>

@@ -1,0 +1,2 @@
+
+typedef IsLoading = bool;

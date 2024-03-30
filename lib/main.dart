@@ -6,7 +6,13 @@ import 'package:instantgram/state/auth/providers/auth_state_provider.dart';
 import 'dart:developer' as devtools show log;
 
 import 'package:instantgram/state/auth/providers/is_logged_in_provider.dart';
+import 'package:instantgram/state/providers/is_loading_provider.dart';
+import 'package:instantgram/views/components/animations/data_not_found_animation_view.dart';
+import 'package:instantgram/views/components/animations/empty_contents_with_texts_animation_view.dart';
+import 'package:instantgram/views/components/animations/loading_animation_view.dart';
 import 'package:instantgram/views/components/loading/loadinng_screen.dart';
+import 'package:instantgram/views/login/login_view.dart';
+import 'package:instantgram/views/main/main_view.dart';
 
 extension Log on Object{
   void log() => devtools.log(toString());
@@ -48,6 +54,21 @@ class _AppState extends State<App> {
       debugShowCheckedModeBanner: false,
       home: Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
+          //Take care of displaying the loading screen
+          ref.listen<bool>(
+            isLoadingProvider,
+                (_, isLoading) {
+              if (isLoading) {
+                print('isloading true status is: $isLoading');
+                LoadingScreen.instance().show(
+                  context: context,
+                );
+              } else {
+                print('isloading false status is: $isLoading');
+                LoadingScreen.instance().hide();
+              }
+            },
+          );
           final isLoggedIn = ref.watch(isLoggedInProvider);
           isLoggedIn.log();
           if(isLoggedIn){
@@ -60,60 +81,3 @@ class _AppState extends State<App> {
     );
   }
 }
-
-//For when you are already logged in
-class MainView extends StatelessWidget {
-  const MainView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Main view'),
-      ),
-      body: Consumer(
-        builder: ( _, WidgetRef ref, Widget? child) {
-          return ElevatedButton(
-            onPressed: () async {
-              await ref.read(authStateProvider.notifier).logout();
-            },
-            child: const Text('Log out'),
-
-          );
-        },
-
-      ),
-    );
-  }
-}
-
-//For when you are not logged in
-class LoginView extends ConsumerWidget {
-  const LoginView({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login view'),
-      ),
-      body: Column(
-        children: [
-          TextButton(
-              onPressed: ref.read(authStateProvider.notifier).loginWithGoogle, //connecting to the general login process so that it result can be easily read by other functions
-              child: const Text('Sign in with Google'),
-          ),
-          TextButton(
-            onPressed: ref.read(authStateProvider.notifier).loginWithFacebook,
-            child: const Text('Sign in with Facebook',),
-          ),
-
-        ],
-      ),
-    );
-  }
-}
-
-

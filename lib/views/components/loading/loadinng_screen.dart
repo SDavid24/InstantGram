@@ -30,20 +30,23 @@ class LoadingScreen {
   }
 
   void hide(){
-    _controller?.close;
+    _controller?.close();
     _controller = null;
+    print('isloading hide() is called');
+
   }
 
   LoadingScreenController? showOverlay({
     required BuildContext context,
     required String text,
   }){
+    final textController = StreamController<String>();
+    textController.add(text);
+
     final state = Overlay.of(context);
     if(state == null){
       return null;
     }
-    final textController = StreamController<String>();
-    textController.add(text);
 
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;  //We can proportionally match the screen size using this
@@ -100,13 +103,17 @@ class LoadingScreen {
 
     state.insert(overlay);  //Add the dialog
 
-    return LoadingScreenController(close:(){
-      textController.close();
-      overlay.remove();
-      return true;
-    }, update: (text) {
-      textController.add(text);
-      return true;
-    });
+
+    return LoadingScreenController(
+      close: () {
+        textController.close();
+        overlay.remove();
+        return true;
+      },
+      update: (text) {
+        textController.add(text);
+        return true;
+      },
+    );
   }
 }
